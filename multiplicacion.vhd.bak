@@ -1,0 +1,144 @@
+LIBRARY IEEE;
+USE ieee.std_logic_1164.all;
+---------------------------------------------------
+ENTITY multiplicacion IS
+	PORT(		x0	:	IN		STD_LOGIC;
+				x1	:	IN		STD_LOGIC;
+				x2	:	IN		STD_LOGIC;
+				x3	:	IN		STD_LOGIC;
+				y0	:	IN		STD_LOGIC;
+				y1	:	IN		STD_LOGIC;
+				y2	:	IN		STD_LOGIC;
+				y3	:	IN		STD_LOGIC;
+				p0	:	OUT	STD_LOGIC;
+				p1	:	OUT	STD_LOGIC;
+				p2	:	OUT	STD_LOGIC;
+				p3	:	OUT	STD_LOGIC;
+				p4	:	OUT	STD_LOGIC;
+				p5	:	OUT	STD_LOGIC;
+				p6	:	OUT	STD_LOGIC;
+				p7	:	OUT	STD_LOGIC);
+END ENTITY multiplicacion;
+ARCHITECTURE gate_level OF multiplicacion IS
+	SIGNAL mul1	:	STD_LOGIC;
+	SIGNAL mul2	:	STD_LOGIC;
+	SIGNAL Cout1 : STD_LOGIC;
+	SIGNAL mul3	:	STD_LOGIC;
+	SIGNAL mul4	:	STD_LOGIC;
+	SIGNAL s1	:	STD_LOGIC;
+	SIGNAL Cout2	:	STD_LOGIC;
+	SIGNAL mul5	:	STD_LOGIC;
+	SIGNAL Cout3	:	STD_LOGIC;
+	SIGNAL mul6	:	STD_LOGIC;
+	SIGNAL mul7	:	STD_LOGIC;
+	SIGNAL Cout7	:	STD_LOGIC;
+	SIGNAL s2	:	STD_LOGIC;
+	SIGNAL Cout4	:	STD_LOGIC;
+	SIGNAL mul8	:	STD_LOGIC;
+	SIGNAL s3	:	STD_LOGIC;
+	SIGNAL Cout5	:	STD_LOGIC;
+	SIGNAL mul9	:	STD_LOGIC;
+	SIGNAL Cout6	:	STD_LOGIC;
+	SIGNAL mul10	:	STD_LOGIC;
+	SIGNAL mul11	:	STD_LOGIC;
+	SIGNAL s4	:	STD_LOGIC;
+	SIGNAL mul12	:	STD_LOGIC;
+	SIGNAL s5	:	STD_LOGIC;
+	SIGNAL Cout8	:	STD_LOGIC;
+	SIGNAL Cout9	:	STD_LOGIC;
+	SIGNAL mul13	:	STD_LOGIC;
+	SIGNAL mul14	:	STD_LOGIC;
+	SIGNAL s6	:	STD_LOGIC;
+	SIGNAL Cout10	:	STD_LOGIC;
+	SIGNAL Cout11	:	STD_LOGIC;
+	SIGNAL mul15	:	STD_LOGIC;
+BEGIN
+	Termino_1:	p0	<=	y0 AND x0;
+	Termino_2:	mul1	<=	y0	AND x1;
+					mul2	<=	y1	AND x0;
+					sum_1: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul1,
+												A_B_Cin(1)	=> mul2,
+												A_B_Cin(0)  => '0',
+												s_Cout(1)	=> p1,
+												s_Cout(0)	=> Cout1);
+	Termino_3: mul3	<=	y0	AND x2;
+				  mul4	<=	y1	AND x1;
+				  sum_2: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul3,
+												A_B_Cin(1)	=> mul4,
+												A_B_Cin(0)  => Cout1,
+												s_Cout(1)	=> s1,
+												s_Cout(0)	=> Cout2);
+				  mul5	<=	y2	AND x0;
+				  sum_3:	ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s1,
+												A_B_Cin(1)	=> mul5,
+												A_B_Cin(0)  => '0',
+												s_Cout(1)	=> p2,
+												s_Cout(0)	=> Cout3);
+		Termino_4: mul6	<=	y0	AND x3;
+				  mul7	<=	y1	AND x2;
+				  sum_4: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul6,
+												A_B_Cin(1)	=> mul7,
+												A_B_Cin(0)  => Cout2,
+												s_Cout(1)	=> s2,
+												s_Cout(0)	=> Cout4);
+				  mul8	<=	y2	AND x1;
+				  sum_5:	ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s2,
+												A_B_Cin(1)	=> mul8,
+												A_B_Cin(0)  => Cout3,
+												s_Cout(1)	=> s3,
+												s_Cout(0)	=> Cout5);
+				  mul9	<=	y3	AND x0;
+				  sum_6:	ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s3,
+												A_B_Cin(1)	=> mul9,
+												A_B_Cin(0)  => '0',
+												s_Cout(1)	=> p3,
+												s_Cout(0)	=> Cout6);
+	Termino_5: mul10	<=	y1	AND x3;
+				  mul11	<=	y2	AND x2;
+				  sum_7: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul10,
+												A_B_Cin(1)	=> mul11,
+												A_B_Cin(0)  => Cout4,
+												s_Cout(1)	=> s4,
+												s_Cout(0)	=> Cout7);
+				  mul12	<=	y3	AND x1;
+				  sum_8:	ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s4,
+												A_B_Cin(1)	=> mul12,
+												A_B_Cin(0)  => Cout5,
+												s_Cout(1)	=> s5,
+												s_Cout(0)	=> Cout8);
+				  sum_9:	ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s5,
+												A_B_Cin(1)	=> '0',
+												A_B_Cin(0)  => Cout6,
+												s_Cout(1)	=> p4,
+												s_Cout(0)	=> Cout9);
+	Termino_6: mul13	<=	y3	AND x2;
+				  mul14	<=	y2	AND x3;
+				  sum_10: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul13,
+												A_B_Cin(1)	=> mul14,
+												A_B_Cin(0)  => Cout7,
+												s_Cout(1)	=> s6,
+												s_Cout(0)	=> Cout10);
+				  sum_11: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> s6,
+												A_B_Cin(1)	=> Cout9,
+												A_B_Cin(0)  => Cout8,
+												s_Cout(1)	=> p5,
+												s_Cout(0)	=> Cout11);
+	Termino_7: mul15	<=	y3	AND x3;
+				  sum_12: ENTITY work.full_adder
+								PORT MAP (	A_B_Cin(2)	=> mul15,
+												A_B_Cin(1)	=> Cout11,
+												A_B_Cin(0)  => Cout10,
+												s_Cout(1)	=> p6,
+												s_Cout(0)	=> p7);
+END ARCHITECTURE gate_level;

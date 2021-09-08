@@ -1,0 +1,33 @@
+LIBRARY IEEE;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_unsigned.all;
+ENTITY binbcd8 IS
+	PORT(	b	:	IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
+			dec	:	OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+			uni	:	OUT	STD_LOGIC_VECTOR(3 DOWNTO 0));
+END binbcd8;
+ARCHITECTURE binbd_arch OF binbcd8 IS
+BEGIN
+	bcd1:process(B)
+	variable z: STD_LOGIC_VECTOR(17 DOWNTO 0);
+	
+	BEGIN
+		FOR i IN 0 to 17 loop
+			z(i) := '0';
+		END LOOP;
+		z(10 DOWNTO 3) := B;
+		
+		FOR i IN 0 TO 4 LOOP
+			IF z(11 DOWNTO 8)	>	4	THEN
+					z(11	DOWNTO 8) := z(11 DOWNTO 8) + 3;
+					
+			END IF;
+			IF z(15 DOWNTO 12)> 4 THEN
+					z(15 DOWNTO 12) := z(15 DOWNTO 12)+3;
+			END IF;
+			z(17 DOWNTO 1) := z(16 DOWNTO 0);
+		END LOOP;
+		dec <= z(15 DOWNTO 12);
+		uni <= z(11 DOWNTO 8);
+	END PROCESS bcd1;
+END binbd_arch;

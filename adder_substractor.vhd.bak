@@ -1,0 +1,87 @@
+LIBRARY IEEE;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_unsigned.all;
+---------------------------------------------------------------
+ENTITY adder_substractor IS
+	PORT(		a		    :	IN		STD_LOGIC_VECTOR (7 DOWNTO 0);
+				b		    :	IN		STD_LOGIC_VECTOR (7 DOWNTO 0);
+            s		    :	OUT	STD_LOGIC_VECTOR  (7 DOWNTO 0);
+				addn_subs :	IN		STD_LOGIC;
+				Cin0 	    :	IN		STD_LOGIC);
+END ENTITY adder_substractor;
+---------------------------------------------------------------
+ARCHITECTURE gateLevel OF adder_substractor IS
+	SIGNAL	C0out  :	STD_LOGIC_VECTOR (7 DOWNTO 0);
+	SIGNAL	p     :	STD_LOGIC_VECTOR (7 DOWNTO 0);
+
+BEGIN
+
+	-- Twos Complement
+	p(0) <= b(0)  XOR addn_subs;
+	p(1) <= b(1)  XOR addn_subs;
+	p(2) <= b(2)  XOR addn_subs;
+	p(3) <= b(3)  XOR addn_subs;
+	p(4) <= b(4)  XOR addn_subs;
+	p(5) <= b(5)  XOR addn_subs;
+	p(6) <= b(6)  XOR addn_subs;
+	p(7) <= b(7)  XOR addn_subs;
+	
+	-- Component Instation
+	adder_0: ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> Cin0,
+					A_B_Cin(1)	=> a(0),
+					A_B_Cin(2)   => b(0),
+					s_Cout(1)	=> s(0),
+					s_Cout(0) 	=> C0out(0));
+					
+	adder_1: ENTITY work.full_adder
+	PORT MAP(	A_B_Cin(0)	=> C0out(0),
+					A_B_Cin(1)		=> a(1),
+					A_B_Cin(2)    => b(1),
+					s_Cout(1)		=> s(1),
+					s_Cout(0)	=> C0out(1));
+	
+	adder_2:ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> C0out(1),
+					A_B_Cin(1)		=> a(2),
+					A_B_Cin(2)	   => b(2),
+					s_Cout(1)		=> s(2),
+					s_Cout(0)	=> C0out(2));
+					
+	adder_3:ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> C0out(2),
+					A_B_Cin(1)		=> a(3),
+					A_B_Cin(2)	   => b(3),
+					s_Cout(1)		=> s(3),
+					s_Cout(0)	=> C0out(3));	
+
+	adder_4: ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> C0out(3),
+					A_B_Cin(1)		=> a(4),
+					A_B_Cin(2)    => b(4),
+					s_Cout(1)		=> s(4),
+					s_Cout(0) 	=> C0out(4));
+					
+	adder_5: ENTITY work.full_adder
+	PORT MAP(	A_B_Cin(0)	=> C0out(4),
+					A_B_Cin(1)		=> a(5),
+					A_B_Cin(2)    => b(5),
+					s_Cout(1)		=> s(5),
+					s_Cout(0)	=> C0out(5));
+	
+	adder_6:ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> C0out(5),
+					A_B_Cin(1)		=> a(6),
+					A_B_Cin(2)	   => b(6),
+					s_Cout(1)		=> s(6),
+					s_Cout(0)	=> C0out(6));
+					
+	adder_7:ENTITY work.full_adder
+	PORT MAP (	A_B_Cin(0)	=> C0out(6),
+					A_B_Cin(1)		=> a(7),
+					A_B_Cin(2)	   => b(7),
+					s_Cout(1)		=> s(7),
+					s_Cout(0)	=> C0out(7));	
+
+
+END ARCHITECTURE gateLevel;

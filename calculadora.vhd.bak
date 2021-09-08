@@ -1,0 +1,47 @@
+LIBRARY IEEE;
+USE ieee.std_logic_1164.all;
+------------------------------------------------------------------
+ENTITY calculadora IS
+	PORT(	x_0	:	IN	STD_LOGIC_VECTOR (3 DOWNTO 0);
+			x_1	:	IN	STD_LOGIC_VECTOR (3 DOWNTO 0);
+			SW1	:	IN	STD_LOGIC;
+			SW0	:	IN	STD_LOGIC;
+			s_1	:	IN	STD_LOGIC_VECTOR (3 DOWNTO 0);
+			r	:	IN	STD_LOGIC_VECTOR (3 DOWNTO 0);
+			sseg_x0	:	OUT	STD_LOGIC_VECTOR(6 DOWNTO 0);
+			sseg_x1	:	OUT	STD_LOGIC_VECTOR(6 DOWNTO 0);
+			sseg_s1	:	OUT	STD_LOGIC_VECTOR(6 DOWNTO 0);
+			sseg_r	:	OUT	STD_LOGIC_VECTOR(6 DOWNTO 0));
+END calculadora;
+-------------------------------------------------------------------
+ARCHITECTURE functional OF calculadora IS
+SIGNAL res	:	STD_LOGIC_VECTOR(7 DOWNTO 0);
+BEGIN
+Pantalla: ENTITY work.segmentos7
+								PORT MAP (	bin_0	=> x_0,
+												bin_1	=> x_1,
+												r_1  => s_1,
+												r_2	=> r,
+												sseg_x0	=> sseg_x0,
+												sseg_x1	=>	sseg_x1,
+												sseg_x2	=>	sseg_s1,
+												sseg_x3	=>	sseg_r);	
+Operacion_mul: ENTITY work.multiplicacion
+								PORT MAP (	x0	=> x_0(0),
+												x1	=> x_0(1),
+												x2 => x_0(2),
+												x3	=> x_0(3),
+												y0	=> x_1(0),
+												y1	=> x_1(1),
+												y2 => x_1(2),
+												y3	=> x_1(3),
+												p0	=> res(0),
+												p1	=> res(1),
+												p2 => res(2),
+												p3	=> res(3),
+												p4	=> res(4),
+												p5	=> res(5),
+												p6 => res(6),
+												p7	=> res(7));
+	
+END ARCHITECTURE;
